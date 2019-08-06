@@ -5,7 +5,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
-		sh 'mvn clean compile'
+		bat "mvn clean install"
             }
         }
         stage('Test') {
