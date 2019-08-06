@@ -1,13 +1,32 @@
 pipeline {
-    agent any   
+    agent any
+
     stages {
-        stage('Build') {
+        stage ('Compile Stage') {
+
             steps {
-                sh 'printenv'
-                withMaven(mavenSettingsConfig: 'maven-settings-global') {
-                    sh 'mvn clean package'
+                withMaven(maven : 'apache-maven-3.5.4') {
+                    sh 'mvn clean install'
                 }
             }
-        }     
-    }    
+        }
+
+        stage ('Testing Stage') {
+
+            steps {
+                withMaven(maven : 'apache-maven-3.5.4') {
+                    sh 'mvn test'
+                }
+            }
+        }
+
+
+        stage ('Deployment Stage') {
+            steps {
+                withMaven(maven : 'apache-maven-3.5.4') {
+                    sh 'mvn deploy'
+                }
+            }
+        }
+    }
 }
